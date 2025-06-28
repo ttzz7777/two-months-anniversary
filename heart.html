@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Two Months Anniversary!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #ffc0cb 0%, #ff69b4 100%);
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #text {
+      position: absolute;
+      bottom: 8%;
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      font-family: 'Nanum Pen Script', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      text-shadow: 2px 2px 8px #e75480;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 2s;
+      padding: 0 20px;
+      box-sizing: border-box;
+      letter-spacing: 0.05em;
+    }
+
+    #text span {
+      display: inline-block;
+      transform-origin: bottom center;
+    }
+
+    #text span:nth-child(13) {
+      transform: scale(0.7);
+    }
+
+    #text span:nth-child(14) {
+      transform: scale(0.8);
+    }
+
+    #text span:nth-child(15) {
+      transform: scale(0.9);
+    }
+
+    #text span:nth-child(16) {
+      transform: scale(1.0);
+    }
+
+    #text span:nth-child(17) {
+      transform: scale(1.1);
+    }
+
+    #text span:nth-child(18) {
+      transform: scale(1.2);
+    }
+
+    #text span:nth-child(19) {
+      transform: scale(1.3);
+    }
+
+    #text span:nth-child(20) {
+      transform: scale(1.4);
+    }
+
+    #text span:nth-child(21) {
+      transform: scale(1.5);
+    }
+
+    #text span:nth-child(22) {
+      transform: scale(1.6);
+    }
+
+    #text span:nth-child(23) {
+      transform: scale(1.5);
+    }
+
+    #text span:nth-child(24) {
+      transform: scale(1.4);
+    }
+
+    #text span:nth-child(25) {
+      transform: scale(1.3);
+    }
+
+    #text span:nth-child(26) {
+      transform: scale(1.2);
+    }
+
+    #text span:nth-child(27) {
+      transform: scale(1.1);
+    }
+
+    #text span:nth-child(28) {
+      transform: scale(1.0);
+    }
+
+    #text span:nth-child(29) {
+      transform: scale(0.9);
+    }
+
+    #text span:nth-child(30) {
+      transform: scale(0.8);
+    }
+
+    #text span:nth-child(31) {
+      transform: scale(0.7);
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      #text {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="text">
+    ♡
+    <span>I</span>
+    <span> </span>
+    <span>L</span>
+    <span>O</span>
+    <span>V</span>
+    <span>E</span>
+    <span> </span>
+    <span>Y</span>
+    <span>O</span>
+    <span>U</span>
+    <span> </span>
+    <span>S</span>
+    <span>O</span><span>O</span><span>O</span><span>♡</span><span>O</span>
+    <span>O</span><span>O</span><span>O</span><span>O</span><span>O</span>
+    <span>♡</span>
+    <span>O</span><span>O</span><span>O</span><span>O</span><span>O</span>
+    <span>O</span><span>O</span><span>O</span><span>O</span><span>O</span>
+    <span>♡</span>
+    <span>Much</span><span>♡</span>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Vertex Shader -->
+  <script id="vertexShader" type="x-shader/x-vertex">
+    varying vec3 vPosition;
+    void main() {
+      vPosition = position;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+  </script>
+
+  <!-- Fragment Shader -->
+  <script id="fragmentShader" type="x-shader/x-fragment">
+    varying vec3 vPosition;
+    void main() {
+      float gradient = (vPosition.y + 5.0) / 10.0;
+      vec3 color = mix(vec3(1.0, 0.4, 0.7), vec3(1.0, 0.75, 0.8), gradient);
+      gl_FragColor = vec4(color, 1.0);
+    }
+  </script>
+
+  <script>
+    let isMobile = window.innerWidth < 600;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    function adjustCamera () {
+      if (isMobile) {
+        camera.position.z = 25;
+      } else {
+        camera.position.z = 20;
+      }
+    }
+    adjustCamera();
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(10, 10, 10);
+    scene.add(pointLight);
+
+    const heartShape = new THREE.Shape();
+    heartShape.moveTo(0, 0);
+    heartShape.bezierCurveTo(0, 0, 0, -3, 3, -3);
+    heartShape.bezierCurveTo(6, -3, 6, 0, 6, 0);
+    heartShape.bezierCurveTo(6, 3, 3, 6, 0, 9);
+    heartShape.bezierCurveTo(-3, 6, -6, 3, -6, 0);
+    heartShape.bezierCurveTo(-6, 0, -6, -3, -3, -3);
+    heartShape.bezierCurveTo(0, -3, 0, 0, 0, 0);
+
+    const extrudeSettings = {
+      steps: 100,
+      depth: 1.5,
+      bevelEnabled: true,
+      bevelThickness: 0.5,
+      bevelSize: 0.5,
+      bevelSegments: 5
+    };
+
+    const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+    geometry.center();
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: document.getElementById('vertexShader').textContent,
+      fragmentShader: document.getElementById('fragmentShader').textContent
+    });
+
+    const heart = new THREE.Mesh(geometry, material);
+    heart.rotation.x = Math.PI;
+    scene.add(heart);
+
+    const particles = new THREE.Group();
+    const particleGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+    const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    for (let i = 0; i < 100; i++) {
+      const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+      particle.position.set(
+        (Math.random() - 0.5) * 40,
+        (Math.random() - 0.5) * 40,
+        (Math.random() - 0.5) * 40
+      );
+      particles.add(particle);
+    }
+    scene.add(particles);
+
+    function animate () {
+      requestAnimationFrame(animate);
+      heart.rotation.y += 0.005;
+      heart.rotation.x += 0.002;
+
+      const baseScale = 1 + 0.05 * Math.sin(Date.now() * 0.003);
+      const scale = isMobile ? baseScale * 0.8 : baseScale;
+      heart.scale.set(scale, scale, scale);
+
+      particles.children.forEach(p => {
+        p.position.y += 0.02;
+        if (p.position.y > 20) p.position.y = -20;
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      isMobile = window.innerWidth < 600;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      adjustCamera();
+    });
+
+    console.log(`
+        %c
+        ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️
+
+        To my dearest sweetheart:
+
+        Happy Two Months Anniversary!
+
+        All the thoughts are starts,
+          and all the starts are you.
+
+        Love you forever 💓
+
+        ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️
+        `,
+      'color: pink; font-size: 16px;'
+    );
+  </script>
+</body>
+
+</html>
